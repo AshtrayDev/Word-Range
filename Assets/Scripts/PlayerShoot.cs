@@ -33,7 +33,8 @@ public class PlayerShoot : MonoBehaviour
 		{
 			if(hit.collider.tag == "Target")
 			{
-				Destroy(hit.collider.gameObject);
+				Target target = hit.collider.GetComponent<Target>();
+				target.TargetHit();
 			}
 		}
 	
