@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using TMPro;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class Target : MonoBehaviour
@@ -16,6 +19,8 @@ public class Target : MonoBehaviour
 	[SerializeField] MoveType moveType;
 	[SerializeField] float speed;
 	
+	[SerializeField] GameObject wordTextObject;
+	
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -23,6 +28,9 @@ public class Target : MonoBehaviour
 		{
 			StartCoroutine(RandomMove());
 		}
+		
+		string newWord = GetNewWord();
+		ChangeWord(newWord);
 	}
 
 	// Update is called once per frame
@@ -41,7 +49,7 @@ public class Target : MonoBehaviour
 		while (true)
 		{
 			WaitForSeconds wait = new WaitForSeconds(timeBetweenStrafe);
-			direction = new Vector2(Random.Range(-1f,1f),Random.Range(-1f,1f));
+			direction = new Vector2(UnityEngine.Random.Range(-1f,1f),UnityEngine.Random.Range(-1f,1f));
 			yield return wait;
 		}
 	} 
@@ -57,8 +65,18 @@ public class Target : MonoBehaviour
 	
 	void OnTriggerEnter(Collider other)
 	{
-		print(other);
 		direction = -direction;
+	}
+	
+	void ChangeWord(string word)
+	{
+		TMP_Text tmp = wordTextObject.GetComponent<TMP_Text>();
+		tmp.text = word;
+	}
+	
+	string GetNewWord()
+	{
+		return FindObjectOfType<LoadLanguage>().GiveTargetWord();
 	}
 	
 }
