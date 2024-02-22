@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LoadLanguage : MonoBehaviour
 {
+	WordFormat wordFormat;
 	// Adjust the path to your CSV file
 	public string embeddingsFilePath = "Assets/word_embeddings.csv";
 
@@ -17,6 +18,7 @@ public class LoadLanguage : MonoBehaviour
 	{
 		LoadEmbeddings();
 		targetWords = FindClosestWords("male_NOUN", 10); // Example usage
+		wordFormat = GetComponent<WordFormat>();
 	}
 
 	void LoadEmbeddings()
@@ -116,6 +118,7 @@ public class LoadLanguage : MonoBehaviour
 		int wordNum = UnityEngine.Random.Range(0, targetWords.Count-1);
 		string word = targetWords[wordNum];
 		targetWords.RemoveAt(wordNum);
+		word = wordFormat.FormatWord(word);
 		return word;
 	}
 }
