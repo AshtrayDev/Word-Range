@@ -1,24 +1,42 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class LoadLanguage : MonoBehaviour
 {
 	WordFormat wordFormat;
-	// Adjust the path to your CSV file
 	public string embeddingsFilePath = "Assets/word_embeddings.csv";
 
-	// Dictionary to store word embeddings
 	public Dictionary<string, float[]> wordEmbeddings = new Dictionary<string, float[]>();
+	public Dictionary<string, int> wordToIndex;
 	
 	List<string> targetWords;
+	string mainWord;
+	string winningWord;
 
 	void Awake()
 	{
 		LoadEmbeddings();
-		targetWords = FindClosestWords("male_NOUN", 10); // Example usage
+		AssignIndices();
 		wordFormat = GetComponent<WordFormat>();
+		mainWord = GetRandomWord();
+		targetWords = FindClosestWords(mainWord, 20);
+	}
+	
+	void Start()
+	{
+		//Clears all duplicates
+		for (int i = 0; i < targetWords.Count; i++)
+		{
+			targetWords[i] = wordFormat.FormatWord(targetWords[i]);
+			List<string> NoDupes = targetWords.Distinct().ToList();
+			targetWords = NoDupes;
+		}
+		
+		winningWord = targetWords[0];
+		targetWords.Remove(winningWord);
 	}
 
 	void LoadEmbeddings()
@@ -82,11 +100,11 @@ public class LoadLanguage : MonoBehaviour
 			distances.Sort((x, y) => x.Item2.CompareTo(y.Item2));
 
 			// Print the closest words
-			Debug.Log("Closest words to '" + targetWord + "':");
+			//Debug.Log("Closest words to '" + targetWord + "':");
 			List<string> strings = new List<string>();
 			for (int i = 0; i < Mathf.Min(numWords, distances.Count); i++)
 			{
-				Debug.Log(distances[i].Item1 + " (Distance: " + distances[i].Item2 + ")");
+				//Debug.Log(distances[i].Item1 + " (Distance: " + distances[i].Item2 + ")");
 				strings.Add(distances[i].Item1);
 			}
 			return strings;
@@ -113,12 +131,57 @@ public class LoadLanguage : MonoBehaviour
 		return Mathf.Sqrt(sum);
 	}
 	
-	public string GiveTargetWord()
+	void AssignIndices()
 	{
+		wordToIndex = new Dictionary<string, int>();
+
+		// Convert keys of the word embeddings dictionary into an array
+		string[] words = new string[wordEmbeddings.Count];
+		wordEmbeddings.Keys.CopyTo(words, 0);
+
+		// Assign an integer index to each word
+		for (int i = 0; i < words.Length; i++)
+		{
+			wordToIndex[words[i]] = i;
+		}
+	}
+	
+	string GetRandomWord()
+	{
+		// Check if the dictionary is empty
+		if (wordEmbeddings.Count == 0)
+		{
+			Debug.LogWarning("Dictionary is empty.");
+			return null;
+		}
+
+		// Generate a random index within the range of the dictionary size
+		int randomIndex = UnityEngine.Random.Range(0, wordEmbeddings.Count);
+
+		// Get the word at the random index
+		string[] words = new string[wordEmbeddings.Keys.Count];
+		wordEmbeddings.Keys.CopyTo(words, 0);
+		string randomWord = words[randomIndex];
+
+		return randomWord;
+	}
+	
+	public string GiveTargetWord(bool isWinningWord)
+	{
+		if(isWinningWord)
+		{
+			return winningWord;
+		}
+		
 		int wordNum = UnityEngine.Random.Range(0, targetWords.Count-1);
 		string word = targetWords[wordNum];
 		targetWords.RemoveAt(wordNum);
 		word = wordFormat.FormatWord(word);
 		return word;
+	}
+	
+	public string GetMainWord()
+	{
+		return wordFormat.FormatWord(mainWord);
 	}
 }

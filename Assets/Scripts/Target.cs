@@ -21,6 +21,10 @@ public class Target : MonoBehaviour
 	
 	[SerializeField] GameObject wordTextObject;
 	
+	public bool winningWord;
+	
+	TargetSpawner targetSpawner;
+	
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -31,6 +35,8 @@ public class Target : MonoBehaviour
 		
 		string newWord = GetNewWord();
 		ChangeWord(newWord);
+		targetSpawner = FindObjectOfType<TargetSpawner>();
+		targetSpawner.SetRandomStats(gameObject);
 	}
 
 	// Update is called once per frame
@@ -76,7 +82,12 @@ public class Target : MonoBehaviour
 	
 	string GetNewWord()
 	{
-		return FindObjectOfType<LoadLanguage>().GiveTargetWord();
+		return FindObjectOfType<LoadLanguage>().GiveTargetWord(winningWord);
+	}
+	
+	public void SetSpeed(float newSpeed)
+	{
+		speed = newSpeed;
 	}
 	
 }

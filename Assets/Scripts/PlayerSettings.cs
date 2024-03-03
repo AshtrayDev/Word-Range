@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,6 +13,7 @@ public class PlayerSettings : MonoBehaviour
 	[SerializeField] GameObject crosshair3;
 	[SerializeField] GameObject crosshair4;
 	[SerializeField] GameObject dot;
+	[SerializeField] GameObject mainWord;
 	[SerializeField] Color crosshairColour;
 	[SerializeField, Range(0,200)] float offset = 6;
 	[SerializeField, Range(0,5)] float thickness = 0.77f;
@@ -25,6 +27,7 @@ public class PlayerSettings : MonoBehaviour
 	Image crosshair3Image;
 	Image crosshair4Image;
 	Image dotImage;
+	TMP_Text mainWordText;
 	
 	RectTransform crosshair1Rect;
 	RectTransform crosshair2Rect;
@@ -45,6 +48,12 @@ public class PlayerSettings : MonoBehaviour
 		crosshair3Rect = crosshair3.GetComponent<RectTransform>();
 		crosshair4Rect = crosshair4.GetComponent<RectTransform>();
 		dotRect = dot.GetComponent<RectTransform>();
+		mainWordText = mainWord.GetComponent<TMP_Text>();
+	}
+	
+	void Start()
+	{
+		UpdateMainWordText();
 	}
 	
 	void Update()
@@ -104,5 +113,11 @@ public class PlayerSettings : MonoBehaviour
 		dot.SetActive(enableDot);
 		dotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, dotSize * 100);
 		dotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, dotSize * 100);
+	}
+	
+	public void UpdateMainWordText()
+	{
+		string word = FindObjectOfType<LoadLanguage>().GetMainWord();
+		mainWordText.text = word;
 	}
 }
