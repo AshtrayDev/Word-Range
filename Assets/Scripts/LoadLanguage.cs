@@ -21,8 +21,7 @@ public class LoadLanguage : MonoBehaviour
 		LoadEmbeddings();
 		AssignIndices();
 		wordFormat = GetComponent<WordFormat>();
-		mainWord = GetRandomWord();
-		targetWords = FindClosestWords(mainWord, 20);
+		SetNewMainWord();
 	}
 	
 	void Start()
@@ -35,8 +34,8 @@ public class LoadLanguage : MonoBehaviour
 			targetWords = NoDupes;
 		}
 		
-		winningWord = targetWords[0];
-		targetWords.Remove(winningWord);
+
+		
 	}
 
 	void LoadEmbeddings()
@@ -183,5 +182,13 @@ public class LoadLanguage : MonoBehaviour
 	public string GetMainWord()
 	{
 		return wordFormat.FormatWord(mainWord);
+	}
+	
+	public void SetNewMainWord()
+	{
+		mainWord = GetRandomWord();
+		targetWords = FindClosestWords(mainWord, 20);
+		winningWord = targetWords[0];
+		targetWords.Remove(winningWord);
 	}
 }

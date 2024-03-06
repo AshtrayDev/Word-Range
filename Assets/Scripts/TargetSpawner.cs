@@ -16,16 +16,31 @@ public class TargetSpawner : MonoBehaviour
 	[SerializeField] Vector2 minSpawnPos;
 	[SerializeField] Vector2 maxSpawnPos;
 	[SerializeField] float zPosition;
+	[SerializeField] int targetsPerRound;
+ 	
+	List<GameObject> targets = new List<GameObject>();
 	
+	LoadLanguage language;
+	PlayerSettings settings;
 	
-	public void SpawnTarget()
+	void Awake()
 	{
-		Instantiate(targetPrefab, GetRandomPosition(), transform.rotation);
+		language = FindObjectOfType<LoadLanguage>();
+		settings = FindAnyObjectByType<PlayerSettings>();
+	}
+	void Start()
+	{
+		AddNewTargets();
 	}
 	
-	public void SpawnWinTarget()
+	public GameObject SpawnTarget()
 	{
-		Instantiate(targetWinPrefab, transform);
+		return Instantiate(targetPrefab, GetRandomPosition(), transform.rotation, transform);
+	}
+	
+	public GameObject SpawnWinTarget()
+	{
+		return Instantiate(targetWinPrefab, GetRandomPosition(), transform.rotation, transform);
 	}
 	
 	public void SetRandomStats(GameObject targetObject)
@@ -52,5 +67,31 @@ public class TargetSpawner : MonoBehaviour
 	{
 		float size = Random.Range(minSize, maxSize);
 		target.transform.localScale = new Vector3(size, size, size);
+	}
+	
+	public void AddNewTargets()
+	{
+		targets.Add(SpawnWinTarget());
+		for (int i = 0; i < targetsPerRound-1; i++)
+		{
+			targets.Add(SpawnTarget());
+		}
+	}
+	
+	public void RemoveAllTargets()
+	{
+		foreach(GameObject target in targets)
+		{
+			Destroy(target);
+		}
+		targets.Clear();
+	}
+	
+	public void WinningWordHit()
+	{
+		language.SetNewMainWord();
+		RemoveAllTargets();
+		AddNewTargets();
+		settings.UpdateMainWordText();
 	}
 }

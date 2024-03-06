@@ -47,6 +47,10 @@ public class Target : MonoBehaviour
 	
 	public void TargetHit()
 	{
+		if(winningWord)
+		{
+			targetSpawner.WinningWordHit();
+		}
 		Destroy(gameObject);
 	}
 	
