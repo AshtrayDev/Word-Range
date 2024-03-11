@@ -34,6 +34,7 @@ public class PlayerSettings : MonoBehaviour
 	RectTransform crosshair3Rect;
 	RectTransform crosshair4Rect;
 	RectTransform dotRect;
+	WordFormat wordFormat;
 	
 	void Awake()
 	{
@@ -49,6 +50,7 @@ public class PlayerSettings : MonoBehaviour
 		crosshair4Rect = crosshair4.GetComponent<RectTransform>();
 		dotRect = dot.GetComponent<RectTransform>();
 		mainWordText = mainWord.GetComponent<TMP_Text>();
+		wordFormat = FindObjectOfType<WordFormat>();
 	}
 	
 	void Start()
@@ -118,6 +120,6 @@ public class PlayerSettings : MonoBehaviour
 	public void UpdateMainWordText()
 	{
 		string word = FindObjectOfType<LoadLanguage>().GetMainWord();
-		mainWordText.text = word;
+		mainWordText.text = wordFormat.FormatWord(word);
 	}
 }

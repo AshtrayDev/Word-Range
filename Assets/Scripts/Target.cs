@@ -24,7 +24,13 @@ public class Target : MonoBehaviour
 	public bool winningWord;
 	
 	TargetSpawner targetSpawner;
+	WordFormat wordFormat;
 	
+	void Awake()
+	{
+		wordFormat = FindObjectOfType<WordFormat>();
+	}
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -81,7 +87,7 @@ public class Target : MonoBehaviour
 	void ChangeWord(string word)
 	{
 		TMP_Text tmp = wordTextObject.GetComponent<TMP_Text>();
-		tmp.text = word;
+		tmp.text = wordFormat.FormatWord(word);
 	}
 	
 	string GetNewWord()

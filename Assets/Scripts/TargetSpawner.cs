@@ -89,7 +89,7 @@ public class TargetSpawner : MonoBehaviour
 	
 	public void WinningWordHit()
 	{
-		language.SetNewMainWord();
+		language.NextWord();
 		RemoveAllTargets();
 		AddNewTargets();
 		settings.UpdateMainWordText();

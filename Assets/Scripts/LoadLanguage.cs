@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using TMPro;
+using Unity.Burst;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LoadLanguage : MonoBehaviour
@@ -10,39 +14,31 @@ public class LoadLanguage : MonoBehaviour
 	public string embeddingsFilePath = "Assets/word_embeddings.csv";
 
 	public Dictionary<string, float[]> wordEmbeddings = new Dictionary<string, float[]>();
-	public Dictionary<string, int> wordToIndex;
+	public Dictionary<string, Dictionary<string, float>> upcomingWords = new Dictionary<string, Dictionary<string, float>>();
+	List<string> mainWords = new List<string>();
+	[SerializeField] public KDTree kDTree;
 	
-	List<string> targetWords;
+	public Dictionary<string, float> targetWords = new Dictionary<string, float>();
 	string mainWord;
 	string winningWord;
+	int wordNumber = 0;
 
 	void Awake()
 	{
 		LoadEmbeddings();
-		AssignIndices();
+		kDTree.BuildTree(wordEmbeddings);
 		wordFormat = GetComponent<WordFormat>();
-		SetNewMainWord();
 	}
 	
 	void Start()
 	{
-		//Clears all duplicates
-		for (int i = 0; i < targetWords.Count; i++)
-		{
-			targetWords[i] = wordFormat.FormatWord(targetWords[i]);
-			List<string> NoDupes = targetWords.Distinct().ToList();
-			targetWords = NoDupes;
-		}
-		
-
-		
+		AddUpcomingWords(20);
 	}
 
 	void LoadEmbeddings()
 	{
 		// Read lines from CSV file
 		string[] lines = File.ReadAllLines(embeddingsFilePath);
-
 		// Skip header line if present
 		int startIndex = lines[0].Contains("Word,Embedding") ? 1 : 0;
 
@@ -52,6 +48,11 @@ public class LoadLanguage : MonoBehaviour
 			string line = lines[i];
 			string[] parts = line.Split(',');
 			string word = parts[0];
+			
+			// Exclude words
+			if (word.Contains("_PROPN") || word.Contains("::") || word.Contains("_NUM") || word.Contains("www."))
+				continue; // Skip the current word
+
 			float[] embeddingValues = ParseEmbeddingValues(parts);
 			wordEmbeddings[word] = embeddingValues;
 		}
@@ -74,121 +75,103 @@ public class LoadLanguage : MonoBehaviour
 		}
 		return values;
 	}
-
-	List<string> FindClosestWords(string targetWord, int numWords)
-	{
-		if (wordEmbeddings.ContainsKey(targetWord))
-		{
-			// Get embedding of target word
-			float[] targetEmbedding = wordEmbeddings[targetWord];
-
-			// Create list to store distances
-			List<Tuple<string, float>> distances = new List<Tuple<string, float>>();
-
-			// Calculate distance from target word to all other words
-			foreach (var kvp in wordEmbeddings)
-			{
-				if (kvp.Key != targetWord)
-				{
-					float distance = VectorDistance(targetEmbedding, kvp.Value);
-					distances.Add(new Tuple<string, float>(kvp.Key, distance));
-				}
-			}
-
-			// Sort distances in ascending order
-			distances.Sort((x, y) => x.Item2.CompareTo(y.Item2));
-
-			// Print the closest words
-			//Debug.Log("Closest words to '" + targetWord + "':");
-			List<string> strings = new List<string>();
-			for (int i = 0; i < Mathf.Min(numWords, distances.Count); i++)
-			{
-				//Debug.Log(distances[i].Item1 + " (Distance: " + distances[i].Item2 + ")");
-				strings.Add(distances[i].Item1);
-			}
-			return strings;
-		}
-		else
-		{
-			Debug.LogError("Word '" + targetWord + "' not found in embeddings.");
-			return null;
-		}
-	}
-
-	float VectorDistance(float[] vector1, float[] vector2)
-	{
-		if (vector1.Length != vector2.Length)
-		{
-			throw new ArgumentException("Vector dimensions must match");
-		}
-
-		float sum = 0f;
-		for (int i = 0; i < vector1.Length; i++)
-		{
-			sum += Mathf.Pow(vector1[i] - vector2[i], 2);
-		}
-		return Mathf.Sqrt(sum);
-	}
 	
-	void AssignIndices()
-	{
-		wordToIndex = new Dictionary<string, int>();
-
-		// Convert keys of the word embeddings dictionary into an array
-		string[] words = new string[wordEmbeddings.Count];
-		wordEmbeddings.Keys.CopyTo(words, 0);
-
-		// Assign an integer index to each word
-		for (int i = 0; i < words.Length; i++)
-		{
-			wordToIndex[words[i]] = i;
-		}
-	}
 	
-	string GetRandomWord()
+	string GetRandomWord(Dictionary<string, float[]> data)
 	{
-		// Check if the dictionary is empty
-		if (wordEmbeddings.Count == 0)
-		{
-			Debug.LogWarning("Dictionary is empty.");
-			return null;
-		}
-
-		// Generate a random index within the range of the dictionary size
-		int randomIndex = UnityEngine.Random.Range(0, wordEmbeddings.Count);
-
-		// Get the word at the random index
-		string[] words = new string[wordEmbeddings.Keys.Count];
-		wordEmbeddings.Keys.CopyTo(words, 0);
-		string randomWord = words[randomIndex];
-
-		return randomWord;
+		int index = UnityEngine.Random.Range(0, data.Count);
+		return data.Keys.ElementAt(index);
 	}
 	
 	public string GiveTargetWord(bool isWinningWord)
 	{
+
 		if(isWinningWord)
 		{
+			winningWord = upcomingWords[mainWord].Keys.ElementAt(0);
+			upcomingWords[mainWord].Remove(winningWord);
 			return winningWord;
 		}
 		
-		int wordNum = UnityEngine.Random.Range(0, targetWords.Count-1);
-		string word = targetWords[wordNum];
-		targetWords.RemoveAt(wordNum);
-		word = wordFormat.FormatWord(word);
+		
+		int wordNum = UnityEngine.Random.Range(0, upcomingWords[mainWord].Count-1);
+		print("Ran number: " + wordNum);
+		print("Count-1: " + (upcomingWords[mainWord].Count-1));
+		string word = upcomingWords[mainWord].Keys.ElementAt(wordNum);
+		upcomingWords[mainWord].Remove(upcomingWords.Keys.ElementAt(wordNum));
 		return word;
 	}
 	
 	public string GetMainWord()
 	{
-		return wordFormat.FormatWord(mainWord);
+		return mainWord;
 	}
 	
 	public void SetNewMainWord()
 	{
-		mainWord = GetRandomWord();
-		targetWords = FindClosestWords(mainWord, 20);
-		winningWord = targetWords[0];
-		targetWords.Remove(winningWord);
+		mainWord = GetRandomWord(wordEmbeddings);
+		mainWords.Add(mainWord);
+		Dictionary<string, float[]> neighbors = kDTree.FindNearestNeighbors(mainWord, 20, wordEmbeddings);
+		Dictionary<string, float[]> NoDupes = new Dictionary<string, float[]>();
+		
+		//Clears all duplicates
+		for (int i = 0; i < neighbors.Count; i++)
+		{
+			try
+			{
+				NoDupes.Add(wordFormat.FormatWord(neighbors.Keys.ElementAt(i)),neighbors[neighbors.Keys.ElementAt(i)]);
+			}
+			catch (Exception e)
+			{
+				Debug.LogWarning(e);
+			}
+		}
+		print("NEIGHBOURS COUNT: " + neighbors.Count);
+		print("NODUPES COUNT: " + NoDupes.Count);
+		neighbors = NoDupes;
+		targetWords = SortWordsBySimilarity(neighbors);
+	}
+	
+	void AddUpcomingWords(int count)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			SetNewMainWord();
+			upcomingWords.Add(mainWord, targetWords);
+		}
+	}
+	
+	public void NextWord()
+	{
+		wordNumber++;
+		mainWord = upcomingWords.Keys.ElementAt(wordNumber);
+		
+		foreach(var word in upcomingWords[mainWord])
+		{
+			print(word.Key + ":" + word.Value);
+		}
+	}
+	
+	public Dictionary<string, float> SortWordsBySimilarity(Dictionary<string, float[]> words)
+	{
+		// Calculate distance scores for each word
+		Dictionary<string, float> distanceScores = new Dictionary<string, float>();
+		float[] mainWordEmbedding = wordEmbeddings[mainWords[wordNumber]];
+		foreach (var word in words)
+		{
+			float[] wordEmbedding = word.Value;
+			float distance = CalculateDistance(mainWordEmbedding, wordEmbedding);
+			distanceScores[word.Key] = distance;
+		}
+		Dictionary<string, float> sortedDistanceScores = distanceScores.OrderBy(kv => kv.Value).ToDictionary(kv => kv.Key, kv => kv.Value);
+		return sortedDistanceScores;
+	}
+	
+	private float CalculateDistance(float[] embedding1, float[] embedding2)
+	{
+		float sum = 0;
+		for (int i = 0; i < embedding1.Length; i++)
+			sum += (embedding1[i] - embedding2[i]) * (embedding1[i] - embedding2[i]);
+		return (float)Math.Sqrt(sum);
 	}
 }
