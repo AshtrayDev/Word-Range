@@ -50,7 +50,7 @@ public class LoadLanguage : MonoBehaviour
 			string word = parts[0];
 			
 			// Exclude words
-			if (word.Contains("_PROPN") || word.Contains("::") || word.Contains("_NUM") || word.Contains("www."))
+			if (word.Contains("_PROPN") || word.Contains("::") || word.Contains("_NUM") || word.Contains("www.") || word.Contains("~"))
 				continue; // Skip the current word
 
 			float[] embeddingValues = ParseEmbeddingValues(parts);
@@ -98,7 +98,7 @@ public class LoadLanguage : MonoBehaviour
 		print("Ran number: " + wordNum);
 		print("Count-1: " + (upcomingWords[mainWord].Count-1));
 		string word = upcomingWords[mainWord].Keys.ElementAt(wordNum);
-		upcomingWords[mainWord].Remove(upcomingWords.Keys.ElementAt(wordNum));
+		upcomingWords[mainWord].Remove(word);
 		return word;
 	}
 	
@@ -136,7 +136,25 @@ public class LoadLanguage : MonoBehaviour
 	{
 		for (int i = 0; i < count; i++)
 		{
-			SetNewMainWord();
+			bool acceptableDistance = false;
+			while(acceptableDistance == false)
+			{
+				SetNewMainWord();
+				float distance = targetWords.Values.ElementAt(0);
+				if(distance < 2f)
+				{
+					print("acceptable");
+					print(distance);
+					acceptableDistance = true;
+				}
+				
+				else
+				{
+					print(distance);
+					print("not acceptable");
+					mainWords.RemoveAt(mainWords.Count-1);
+				}
+			}
 			upcomingWords.Add(mainWord, targetWords);
 		}
 	}

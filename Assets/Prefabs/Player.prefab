@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4072515178349627054}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.81}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101,6 +101,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2096266719012657895}
+  - component: {fileID: 249204290029936747}
+  - component: {fileID: 7087187058881955219}
+  - component: {fileID: 3815865297975622664}
+  - component: {fileID: 6594972523294376303}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -124,3 +128,67 @@ Transform:
   - {fileID: 7322928919881155964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &249204290029936747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612176557360856746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a15fe7e281287d349a68c2bbebba9e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 1.12
+  yRotationLimit: 88
+--- !u!114 &7087187058881955219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612176557360856746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5245a12502bedc4aa9717e9538b8ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAutomatic: 0
+--- !u!114 &3815865297975622664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612176557360856746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dffae10b80a146043abad849e4c861f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshair1: {fileID: 0}
+  crosshair2: {fileID: 0}
+  crosshair3: {fileID: 0}
+  crosshair4: {fileID: 0}
+  dot: {fileID: 0}
+  mainWord: {fileID: 0}
+  crosshairColour: {r: 0.12834764, g: 1, b: 0, a: 1}
+  offset: 5
+  thickness: 0.72
+  length: 0.68
+  enableDot: 0
+  dotSize: 0
+  targetColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &6594972523294376303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612176557360856746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4a584b87b1f62d49a49e6b36923708d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

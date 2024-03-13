@@ -14,6 +14,7 @@ public class PlayerSettings : MonoBehaviour
 	[SerializeField] GameObject crosshair4;
 	[SerializeField] GameObject dot;
 	[SerializeField] GameObject mainWord;
+	[SerializeField] GameObject score;
 	[SerializeField] Color crosshairColour;
 	[SerializeField, Range(0,200)] float offset = 6;
 	[SerializeField, Range(0,5)] float thickness = 0.77f;
@@ -28,6 +29,7 @@ public class PlayerSettings : MonoBehaviour
 	Image crosshair4Image;
 	Image dotImage;
 	TMP_Text mainWordText;
+	TMP_Text scoreText;
 	
 	RectTransform crosshair1Rect;
 	RectTransform crosshair2Rect;
@@ -50,12 +52,13 @@ public class PlayerSettings : MonoBehaviour
 		crosshair4Rect = crosshair4.GetComponent<RectTransform>();
 		dotRect = dot.GetComponent<RectTransform>();
 		mainWordText = mainWord.GetComponent<TMP_Text>();
+		scoreText = score.GetComponent<TMP_Text>();
 		wordFormat = FindObjectOfType<WordFormat>();
 	}
 	
 	void Start()
 	{
-		UpdateMainWordText();
+		
 	}
 	
 	void Update()
@@ -121,5 +124,10 @@ public class PlayerSettings : MonoBehaviour
 	{
 		string word = FindObjectOfType<LoadLanguage>().GetMainWord();
 		mainWordText.text = wordFormat.FormatWord(word);
+	}
+	
+	public void UpdateScoreText(int score)
+	{
+		scoreText.text = score.ToString();
 	}
 }

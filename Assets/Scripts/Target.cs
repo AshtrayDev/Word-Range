@@ -23,8 +23,12 @@ public class Target : MonoBehaviour
 	
 	public bool winningWord;
 	
+	float startTime;
+	float endTime;
+	
 	TargetSpawner targetSpawner;
 	WordFormat wordFormat;
+	PlayerScore score;
 	
 	void Awake()
 	{
@@ -43,6 +47,8 @@ public class Target : MonoBehaviour
 		ChangeWord(newWord);
 		targetSpawner = FindObjectOfType<TargetSpawner>();
 		targetSpawner.SetRandomStats(gameObject);
+		score = FindObjectOfType<PlayerScore>();
+		startTime = Time.time;
 	}
 
 	// Update is called once per frame
@@ -56,7 +62,14 @@ public class Target : MonoBehaviour
 		if(winningWord)
 		{
 			targetSpawner.WinningWordHit();
+			float timeToHit = Time.time - startTime;
+			score.AddScore(timeToHit, transform.localScale.x, speed);
 		}
+		else
+		{
+			score.RemoveScore();
+		}
+		
 		Destroy(gameObject);
 	}
 	
@@ -68,7 +81,11 @@ public class Target : MonoBehaviour
 			direction = new Vector2(UnityEngine.Random.Range(-1f,1f),UnityEngine.Random.Range(-1f,1f));
 			yield return wait;
 		}
-	} 
+	}
+	
+	void Timer()
+	{
+	}
 	
 	void Move()
 	{
