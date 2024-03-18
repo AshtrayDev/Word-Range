@@ -32,7 +32,7 @@ public class LoadLanguage : MonoBehaviour
 	
 	void Start()
 	{
-		AddUpcomingWords(20);
+		AddUpcomingWords(30);
 	}
 
 	void LoadEmbeddings()
@@ -132,7 +132,7 @@ public class LoadLanguage : MonoBehaviour
 		targetWords = SortWordsBySimilarity(neighbors);
 	}
 	
-	void AddUpcomingWords(int count)
+	public void AddUpcomingWords(int count)
 	{
 		for (int i = 0; i < count; i++)
 		{

@@ -105,6 +105,8 @@ GameObject:
   - component: {fileID: 7087187058881955219}
   - component: {fileID: 3815865297975622664}
   - component: {fileID: 6594972523294376303}
+  - component: {fileID: 6441610117151436578}
+  - component: {fileID: 6467055402514230232}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -173,6 +175,9 @@ MonoBehaviour:
   crosshair4: {fileID: 0}
   dot: {fileID: 0}
   mainWord: {fileID: 0}
+  score: {fileID: 0}
+  timer: {fileID: 0}
+  endScreen: {fileID: 0}
   crosshairColour: {r: 0.12834764, g: 1, b: 0, a: 1}
   offset: 5
   thickness: 0.72
@@ -190,5 +195,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4a584b87b1f62d49a49e6b36923708d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseTimeScore: 400
+  baseSizeScore: 400
+  baseSpeedScore: 0
+  maxTimePenalty: 10
+  wrongTargetScoreLoss: 100
+--- !u!114 &6441610117151436578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612176557360856746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea058cca568871744b1136058f1b9064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerMin: 5
+  timerSeconds: 10
+--- !u!114 &6467055402514230232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612176557360856746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b52b4347535cd840bf7fe0bcc645c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

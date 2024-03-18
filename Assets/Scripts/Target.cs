@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using TMPro;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -42,9 +41,7 @@ public class Target : MonoBehaviour
 		{
 			StartCoroutine(RandomMove());
 		}
-		
-		string newWord = GetNewWord();
-		ChangeWord(newWord);
+		StartCoroutine(TryGetWord());
 		targetSpawner = FindObjectOfType<TargetSpawner>();
 		targetSpawner.SetRandomStats(gameObject);
 		score = FindObjectOfType<PlayerScore>();
@@ -83,8 +80,22 @@ public class Target : MonoBehaviour
 		}
 	}
 	
-	void Timer()
+	IEnumerator TryGetWord()
 	{
+		string newWord = "";
+		while(newWord == "")
+		{
+			try
+			{
+				newWord = GetNewWord();
+				ChangeWord(newWord);
+			}
+			catch (Exception e)
+			{
+				Debug.LogWarning(e);
+			}
+			yield return new WaitForSeconds(0.1f);			
+		}
 	}
 	
 	void Move()

@@ -28,9 +28,11 @@ public class TargetSpawner : MonoBehaviour
 		language = FindObjectOfType<LoadLanguage>();
 		settings = FindAnyObjectByType<PlayerSettings>();
 	}
+	
 	void Start()
 	{
 		AddNewTargets();
+		
 	}
 	
 	public GameObject SpawnTarget()

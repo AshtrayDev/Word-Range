@@ -791,6 +791,16 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1421751465}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1493100581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1806697946057778844, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+  m_PrefabInstance: {fileID: 7704849044387403691}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1719875412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6616637220640971549, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+  m_PrefabInstance: {fileID: 7704849044387403691}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1795585222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,9 +1062,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 3613017065070643923, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
-      propertyPath: m_Name
-      value: Main Word
+    - target: {fileID: 1806697946057778844, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4027614354951638030, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4027614354951638030, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4027614354951638030, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6467055402514230232, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
+    - target: {fileID: 4027614354951638030, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4027614354951638030, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4027614354951638030, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ResetGame, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4027614354951638030, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5906061716129696524, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1111,6 +1149,18 @@ PrefabInstance:
     - target: {fileID: 6485701738057023931, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 492
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134799778495182493, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 13.098789
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134799778495182493, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.468219
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134799778495182493, guid: 27014da0bebc48649a3e7936ca6b2db4, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.468219
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1174,9 +1224,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 790641103}
     - target: {fileID: 3815865297975622664, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1719875412}
+    - target: {fileID: 3815865297975622664, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
       propertyPath: mainWord
       value: 
       objectReference: {fileID: 1966488850}
+    - target: {fileID: 3815865297975622664, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
+      propertyPath: endScreen
+      value: 
+      objectReference: {fileID: 1493100581}
     - target: {fileID: 3815865297975622664, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
       propertyPath: crosshair1
       value: 
@@ -1197,17 +1255,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6441610117151436578, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
+      propertyPath: timerMin
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441610117151436578, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
+      propertyPath: timerSeconds
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6594972523294376303, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
       propertyPath: baseSizeScore
-      value: 400
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 6594972523294376303, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
       propertyPath: baseTimeScore
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594972523294376303, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
-      propertyPath: baseSpeedScore
-      value: 0
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 6594972523294376303, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
       propertyPath: maxTimePenalty
@@ -1216,22 +1278,6 @@ PrefabInstance:
     - target: {fileID: 6594972523294376303, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
       propertyPath: wrongTargetScoreLoss
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7322928919881155964, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7322928919881155964, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7322928919881155964, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7322928919881155964, guid: 5bc1e6bb4242b2a42a66744f121b5628, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
