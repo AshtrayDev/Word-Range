@@ -178,6 +178,7 @@ MonoBehaviour:
   score: {fileID: 0}
   timer: {fileID: 0}
   endScreen: {fileID: 0}
+  endScreenScore: {fileID: 0}
   crosshairColour: {r: 0.12834764, g: 1, b: 0, a: 1}
   offset: 5
   thickness: 0.72
@@ -199,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTimeScore: 400
   baseSizeScore: 400
-  baseSpeedScore: 0
+  baseSpeedScore: 1
   maxTimePenalty: 10
   wrongTargetScoreLoss: 100
 --- !u!114 &6441610117151436578

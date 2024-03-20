@@ -14,6 +14,7 @@ public class PlayerTimer : MonoBehaviour
 	
 	PlayerSettings settings;
 	PlayerCamera cam;
+	PlayerScore score;
 	
 	
 	// Start is called before the first frame update
@@ -21,6 +22,7 @@ public class PlayerTimer : MonoBehaviour
 	{
 		settings = FindObjectOfType<PlayerSettings>();
 		cam = FindObjectOfType<PlayerCamera>();
+		score = GetComponent<PlayerScore>();
 		ResetTimer();
 	}
 
@@ -28,13 +30,14 @@ public class PlayerTimer : MonoBehaviour
 	{
 		while(true)
 		{
-			WaitForSeconds wait = new WaitForSeconds(1);
+
 			if(seconds <= 0)
 			{
 				if(minutes <= 0)
 				{
 					cam.StopCameraMovement();
 					settings.SetActiveEndScreen(true);
+					settings.UpdateEndScreenScoreText(score.GetScore());
 					StopCoroutine(StartTimer());
 				}
 				else
@@ -48,7 +51,7 @@ public class PlayerTimer : MonoBehaviour
 				seconds--;
 			}
 			settings.UpdateTimerText(minutes, seconds);
-			yield return wait;
+			yield return new WaitForSeconds(1f);
 		}
 	}
 	

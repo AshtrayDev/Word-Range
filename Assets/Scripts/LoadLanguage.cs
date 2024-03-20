@@ -11,6 +11,7 @@ using UnityEngine;
 public class LoadLanguage : MonoBehaviour
 {
 	WordFormat wordFormat;
+	PlayerSettings settings;
 	public string embeddingsFilePath = "Assets/word_embeddings.csv";
 
 	public Dictionary<string, float[]> wordEmbeddings = new Dictionary<string, float[]>();
@@ -28,6 +29,7 @@ public class LoadLanguage : MonoBehaviour
 		LoadEmbeddings();
 		kDTree.BuildTree(wordEmbeddings);
 		wordFormat = GetComponent<WordFormat>();
+		settings = FindAnyObjectByType<PlayerSettings>();
 	}
 	
 	void Start()
@@ -85,7 +87,6 @@ public class LoadLanguage : MonoBehaviour
 	
 	public string GiveTargetWord(bool isWinningWord)
 	{
-
 		if(isWinningWord)
 		{
 			winningWord = upcomingWords[mainWord].Keys.ElementAt(0);
@@ -111,6 +112,9 @@ public class LoadLanguage : MonoBehaviour
 	{
 		mainWord = GetRandomWord(wordEmbeddings);
 		mainWords.Add(mainWord);
+		settings.UpdateMainWordText();
+		
+		print("New main word: " + mainWord);
 		Dictionary<string, float[]> neighbors = kDTree.FindNearestNeighbors(mainWord, 20, wordEmbeddings);
 		Dictionary<string, float[]> NoDupes = new Dictionary<string, float[]>();
 		
@@ -126,8 +130,8 @@ public class LoadLanguage : MonoBehaviour
 				Debug.LogWarning(e);
 			}
 		}
-		print("NEIGHBOURS COUNT: " + neighbors.Count);
-		print("NODUPES COUNT: " + NoDupes.Count);
+		//print("NEIGHBOURS COUNT: " + neighbors.Count);
+		//print("NODUPES COUNT: " + NoDupes.Count);
 		neighbors = NoDupes;
 		targetWords = SortWordsBySimilarity(neighbors);
 	}
@@ -136,25 +140,7 @@ public class LoadLanguage : MonoBehaviour
 	{
 		for (int i = 0; i < count; i++)
 		{
-			bool acceptableDistance = false;
-			while(acceptableDistance == false)
-			{
-				SetNewMainWord();
-				float distance = targetWords.Values.ElementAt(0);
-				if(distance < 2f)
-				{
-					print("acceptable");
-					print(distance);
-					acceptableDistance = true;
-				}
-				
-				else
-				{
-					print(distance);
-					print("not acceptable");
-					mainWords.RemoveAt(mainWords.Count-1);
-				}
-			}
+			SetNewMainWord();
 			upcomingWords.Add(mainWord, targetWords);
 		}
 	}

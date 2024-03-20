@@ -17,6 +17,7 @@ public class PlayerSettings : MonoBehaviour
 	[SerializeField] GameObject score;
 	[SerializeField] GameObject timer;
 	[SerializeField] GameObject endScreen;
+	[SerializeField] GameObject endScreenScore;
 	[SerializeField] Color crosshairColour;
 	[SerializeField, Range(0,200)] float offset = 6;
 	[SerializeField, Range(0,5)] float thickness = 0.77f;
@@ -32,6 +33,7 @@ public class PlayerSettings : MonoBehaviour
 	Image dotImage;
 	TMP_Text mainWordText;
 	TMP_Text scoreText;
+	TMP_Text endScreenScoreText;
 	TMP_Text timerText;
 	
 	RectTransform crosshair1Rect;
@@ -56,6 +58,7 @@ public class PlayerSettings : MonoBehaviour
 		dotRect = dot.GetComponent<RectTransform>();
 		mainWordText = mainWord.GetComponent<TMP_Text>();
 		scoreText = score.GetComponent<TMP_Text>();
+		endScreenScoreText = endScreenScore.GetComponent<TMP_Text>();
 		timerText = timer.GetComponent<TMP_Text>();
 		wordFormat = FindObjectOfType<WordFormat>();
 	}
@@ -133,6 +136,11 @@ public class PlayerSettings : MonoBehaviour
 	public void UpdateScoreText(int score)
 	{
 		scoreText.text = score.ToString();
+	}
+	
+	public void UpdateEndScreenScoreText(int score)
+	{
+		endScreenScoreText.text = "Score: " + score.ToString();
 	}
 	
 	public void UpdateTimerText(int min, int sec)

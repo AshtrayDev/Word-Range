@@ -11,14 +11,15 @@ public class ResetGame : MonoBehaviour
 	
 	void Start()
 	{
-
-	}
-	public void Reset()
-	{
 		score = FindObjectOfType<PlayerScore>();
 		timer = FindObjectOfType<PlayerTimer>();
 		settings = FindObjectOfType<PlayerSettings>();
-		FindObjectOfType<LoadLanguage>().AddUpcomingWords(30);
+		language = FindObjectOfType<LoadLanguage>();
+		print(language);
+	}
+	public void Reset()
+	{
+		language.AddUpcomingWords(30);
 		score.SetScore(0);
 		timer.ResetTimer();
 		settings.SetActiveEndScreen(false);
