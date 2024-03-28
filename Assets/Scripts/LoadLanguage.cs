@@ -45,7 +45,7 @@ public class LoadLanguage : MonoBehaviour
 		int startIndex = lines[0].Contains("Word,Embedding") ? 1 : 0;
 
 		// Parse each line and add to dictionary
-		for (int i = startIndex; i < lines.Length; i++)
+		for (int i = startIndex; i < 10000; i++)
 		{
 			string line = lines[i];
 			string[] parts = line.Split(',');
