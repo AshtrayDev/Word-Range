@@ -115,7 +115,7 @@ public class LoadLanguage : MonoBehaviour
 		settings.UpdateMainWordText();
 		
 		print("New main word: " + mainWord);
-		Dictionary<string, float[]> neighbors = kDTree.FindNearestNeighbors(mainWord, 20, wordEmbeddings);
+		Dictionary<string, float[]> neighbors = kDTree.FindNearestNeighbors(mainWord, 40, wordEmbeddings);
 		Dictionary<string, float[]> NoDupes = new Dictionary<string, float[]>();
 		
 		//Clears all duplicates
